@@ -3,7 +3,9 @@ CFLAGS	= -Wall -Wextra -Werror -g
 MLX		= -lmlx -lX11 -lXext -lm
 HEADER	= miniRT.h
 NAME	= miniRT
-SRC		= main.c math_func.c vec_math.c
+SRC		= main.c math_func.c vec_utils.c \
+		  lights.c render.c color_utils.c \
+		  shapes_calculation.c
 OBJ		= $(SRC:.c=.o)
 #LIBFT	= libft/libft.a
 
@@ -14,7 +16,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 #	make -C libft
-	$(CC) $(CFLAGS) $(MLX) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX) -o $(NAME)
 
 clean:
 #	make clean -C libft

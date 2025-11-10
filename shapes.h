@@ -8,7 +8,9 @@ typedef struct s_vec
 	double	z;
 }	t_vec;
 
-typedef struct s_sphere {
+
+typedef struct s_sphere
+{
     t_vec	center;
     double	radius;
     int		color;
@@ -35,26 +37,12 @@ typedef struct s_color
 	double	r;
 	double	g;
 	double	b;
-} t_color;
+}	t_color;
 
-typedef	struct s_light
+typedef struct s_ambient
 {
-	t_vec	pos;
+	double	ratio;
 	t_color	color;
-	double	brightness;
-} t_light;
-
-
-typedef struct s_hit
-{
-	double	t;
-	t_vec	point;
-	t_vec	normal;
-	t_color	color;
-}	t_hit;
-
-
-
-
+}	t_ambient;
 
 #endif
