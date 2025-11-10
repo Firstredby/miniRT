@@ -1,9 +1,9 @@
 CC		= cc
-#CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror -g
 MLX		= -lmlx -lX11 -lXext -lm
 HEADER	= miniRT.h
 NAME	= miniRT
-SRC		= main.c math_func.c
+SRC		= main.c math_func.c vec_math.c
 OBJ		= $(SRC:.c=.o)
 #LIBFT	= libft/libft.a
 

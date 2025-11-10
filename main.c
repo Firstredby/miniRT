@@ -1,38 +1,93 @@
 #include "miniRT.h"
 
-t_vec vec(double x, double y, double z) 
+t_vec vec(double x, double y, double z)
 {
-	return (t_vec){x, y, z};
+	t_vec	vec;
+
+	vec.x = x;
+	vec.y = y;
+	vec.z = z;
+	return vec;
 }
 
-t_vec vec_add(t_vec a, t_vec b) {
-    return vec(a.x + b.x, a.y + b.y, a.z + b.z);
+t_color	color(int c) // FFFFFF → 255,255,255
+{
+	t_color col;
+	col.r = ((c >> 16) & 0xFF) / 255.0; // convert first two cymb
+	col.g = ((c >> 8) & 0xFF) / 255.0;	// convert next two cymb
+	col.b = (c & 0xFF) / 255.0; // convert last two cymb
+	return col;
 }
 
-t_vec vec_sub(t_vec a, t_vec b) {
-    return vec(a.x - b.x, a.y - b.y, a.z - b.z);
+int color_to_int(t_color c) // 255,255,255 → FFFFFF
+{
+    int r = fmin(255, fmax(0, (int)(c.r * 255)));
+    int g = fmin(255, fmax(0, (int)(c.g * 255)));
+    int b = fmin(255, fmax(0, (int)(c.b * 255)));
+    return (r << 16) | (g << 8) | b;
 }
 
-t_vec vec_scale(t_vec v, double s) {
-    return vec(v.x * s, v.y * s, v.z * s);
+t_color	color_scale(t_color c, double k)
+{
+	t_color res;
+    res.r = c.r * k;
+    res.g = c.g * k;
+    res.b = c.b * k;
+    return res;
 }
 
-double vec_dot(t_vec a, t_vec b) {
-    return a.x * b.x + a.y * b.y + a.z * b.z;
+t_color	color_add(t_color c1, t_color c2)
+{
+	t_color res;
+    res.r = c1.r + c2.r;
+    res.g = c1.g + c2.g;
+    res.b = c1.b + c2.b;
+    return res;
 }
 
-t_vec vec_norm(t_vec v) {
-    double len = sqrt(vec_dot(v, v));
-    return vec(v.x / len, v.y / len, v.z / len);
+t_color	color_mul(t_color c1, t_color c2)
+{
+	t_color res;
+    res.r = c1.r * c2.r;
+    res.g = c1.g * c2.g;
+    res.b = c1.b * c2.b;
+    return res;
 }
 
-int hit_sphere(t_vec orig, t_vec dir, t_sphere s)
+t_color ambient(t_color obj_c, double intensity)
+{
+    return color_scale(obj_c, intensity);
+}
+t_color	diffuse(t_hit hit, t_light light)
+{
+	t_vec L = vec_norm(vec_sub(light.pos, hit.point));
+	double dot = fmax(0.0, vec_dot(hit.normal, L));
+	return (color_scale(color_mul(hit.color, light.color), dot * light.brightness));
+}
+
+int hit_sphere(t_vec orig, t_vec dir, t_sphere s, t_hit *hit)
 {
     t_vec oc = vec_sub(orig, s.center);
     double a = vec_dot(dir, dir);
     double b = 2.0 * vec_dot(oc, dir);
     double c = vec_dot(oc, oc) - s.radius * s.radius;
-    return (discriminant(a, b, c) > 0);
+	double disc = discriminant(a, b, c);
+	if (discriminant < 0)
+    	return (0);
+	double t1 = (-b - sqrt(disc)) / (2 * a);
+	double t2 = (-b + sqrt(disc)) / (2 * a);
+	double t;
+	if (t1 > 0)
+		t = t1;
+	else if (t2 > 0)
+		t = t2;
+	else
+		return (0);
+	hit->t = t;
+	hit->point = vec_add(orig, vec_scale(dir, t));
+	hit->normal = vec_norm(vec_sub(hit->point, s.center));
+	hit->color = color(s.color);
+	return (1);
 }
 
 int	cyledges(t_cylinder cyl, t_vec side, t_vec orig, t_vec dir)
@@ -52,7 +107,7 @@ int	cyledges(t_cylinder cyl, t_vec side, t_vec orig, t_vec dir)
 	return (0);
 }
 
-int	hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl)
+int	hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl, t_hit *hit)
 {
 	t_vec oc = vec_sub(orig, cyl.center);
 	t_vec top_center = vec_add(cyl.center, vec_scale(cyl.axis, cyl.height / 2));
@@ -78,6 +133,10 @@ int	hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl)
 		t = h2;
 	else
 		t = -1;
+	hit->t = t;
+	hit->point = vec_add(orig, vec_scale(dir, t));
+	hit->normal = vec_norm(vec_sub(hit->point, cyl.center));
+	hit->color = color(cyl.color);
 	if (t > 0)
 	{
 		t_vec p = vec_add(orig, vec_scale(dir, t));
@@ -85,12 +144,24 @@ int	hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl)
 		if (h_proj >= -cyl.height / 2 && h_proj <= cyl.height / 2)
 			return (1);
 	}
-	if (cyledges(cyl, top_center, orig, dir))
+	if (cyledges(cyl, top_center, orig, dir) || cyledges(cyl, bottom_center, orig, dir))
 		return (1);
-	else if (cyledges(cyl, bottom_center, orig, dir))
-		return (1);
-	else
-		return (0);
+	return (0);
+}
+
+int	hit_plane(t_vec orig, t_vec dir, t_plane pl, t_hit *hit)
+{
+	double denom = vec_dot(dir, pl.axis);
+    if (fabs(denom) < 1e-6)
+        return (0);
+    double t = -vec_dot(vec_sub(orig, pl.center), pl.axis) / denom;
+	hit->t = t;
+	hit->point = vec_add(orig, vec_scale(dir, t));
+	hit->normal = vec_norm(vec_sub(hit->point, pl.center));
+	hit->color = color(pl.color);
+    if (t < 0)
+        return (0);
+    return (1);
 }
 
 int main(void)
@@ -98,8 +169,11 @@ int main(void)
     void *mlx = mlx_init();
     void *win = mlx_new_window(mlx, WIDTH, HEIGHT, "miniRT");
     t_vec cam = vec(0, 0, 0);
-    t_sphere sphere = { vec(-3, 0, -5), 1.0, 0xFFFFFF };
-	t_cylinder cyl = {.center = vec(3, 0, -5), .axis = vec_norm(vec(0, 1, 0)), .radius = 1.0, .height = 3.0, .color = 0x00FF00};
+    t_sphere sph = { vec(-3, 0, -5), 1.0, 0xFFFFFF };
+	t_cylinder cyl = {.center = vec(3, 0, -5), .axis = vec_norm(vec(0, 1, 1)), .radius = 1.0, .height = 3.0, .color = 0x00FF00};
+	t_plane	pl = {.center = vec(0, 0, -4), .axis = vec_norm(vec(-1, 1, 1)), .color = 0x000000};
+	t_light li = {.pos = vec(0, -1, -1), .brightness = 0.6, .color = color(0xAAFFFF)};
+	t_hit	hit;
 	t_vec dir;
 	double px;
 	double py;
@@ -114,10 +188,35 @@ int main(void)
 
             dir = vec_norm(vec(px, py, -1));
 
-            if (hit_sphere(cam, dir, sphere) || hit_cylinder(cam, dir, cyl))
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
+            if (hit_sphere(cam, dir, sph, &hit))
+			{
+				t_color base = color(sph.color);
+				t_color ambient_col = color_scale(base, 0.1);
+				t_color diffuse_col = diffuse(hit, li); // diffuse тоже возвращает t_color
+				t_color final_col = color_add(ambient_col, diffuse_col);
+				int pixel_color = color_to_int(final_col);
+                mlx_pixel_put(mlx, win, x, y, pixel_color);
+			}
+			else if (hit_cylinder(cam, dir, cyl, &hit))
+			{
+				t_color base = color(sph.color);
+				t_color ambient_col = color_scale(base, 0.1);
+				t_color diffuse_col = diffuse(hit, li); // diffuse тоже возвращает t_color
+				t_color final_col = color_add(ambient_col, diffuse_col);
+				int pixel_color = color_to_int(final_col);
+                mlx_pixel_put(mlx, win, x, y, pixel_color);
+			}
+			else if (hit_plane(cam, dir, pl, &hit))
+			{
+				t_color base = color(sph.color);
+				t_color ambient_col = color_scale(base, 0.1);
+				t_color diffuse_col = diffuse(hit, li); // diffuse тоже возвращает t_color
+				t_color final_col = color_add(ambient_col, diffuse_col);
+				int pixel_color = color_to_int(final_col);
+                mlx_pixel_put(mlx, win, x, y, pixel_color);
+			}
             else
-                mlx_pixel_put(mlx, win, x, y, 0x808080); // фон
+                mlx_pixel_put(mlx, win, x, y, 0x888888); // фон
         }
     }
 
