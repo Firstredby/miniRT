@@ -2,13 +2,15 @@
 #define MINIRT_H
 
 #include "unistd.h"
+#include "stdlib.h"
 #include "math.h"
 #include "mlx.h"
 #include "shapes.h"
+#include "libft/libft.h"
 
 #define PI 3.141592653589793
-#define WIDTH  800
-#define HEIGHT 600
+#define WIDTH  1024
+#define HEIGHT 768
 
 typedef	struct s_light
 {
@@ -39,6 +41,7 @@ typedef	struct s_pov
 {
 	t_vec	cam;
 	t_vec	dir;
+	double	fov;
 	double	x;
 	double	y;
 }	t_pov;
@@ -80,10 +83,14 @@ t_color	color_mul(t_color c1, t_color c2);
 //lights----------------------------------------------------------
 t_color ambient(t_color scene, t_color color, double intensity);
 t_color	diffuse(t_hit hit, t_light light);
+t_color	specular(t_hit hit, t_light light, t_vec cam_pos, double shininess);
+int	in_shadow(t_hit *hit, t_shapes *shapes);
 
 //render----------------------------------------------------------
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color); // buffering image
-void	render(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y); // ray calculation
+void	render_pixel(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y); // ray calculation
+void	render_scene(t_data *data); // scene rendering
+void	clear_image(t_img *img);
 
 //shapes_calculation----------------------------------------------
 int		hit_sphere(t_vec orig, t_vec dir, t_sphere s, t_hit *hit);
