@@ -7,7 +7,7 @@ SRC		= main.c math_func.c vec_utils.c \
 		  lights.c render.c color_utils.c \
 		  shapes_calculation.c
 OBJ		= $(SRC:.c=.o)
-#LIBFT	= libft/libft.a
+LIBFT	= libft/libft.a
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -15,15 +15,15 @@ OBJ		= $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-#	make -C libft
-	$(CC) $(CFLAGS) $(OBJ) $(MLX) -o $(NAME)
+	make -C libft
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
 
 clean:
-#	make clean -C libft
+	make clean -C libft
 	rm -f $(OBJ)
 
 fclean: clean
-#	make fclean -C libft
+	make fclean -C libft
 	rm -f $(NAME)
 
 re: fclean $(NAME)
