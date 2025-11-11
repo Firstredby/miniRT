@@ -4,22 +4,61 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
+		return;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
 
-void	render(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y)
+void	clear_image(t_img *img)
 {
-	t_color ambient_col;
-	t_color diffuse_col;
-	t_color final_col;
+	ft_memset(img->addr, 0, HEIGHT * img->line_length);
+}
+
+void	render_pixel(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y)
+{
+	t_color amb;
+	t_color diff;
+	t_color spec;
+	t_color final;
 	int pixel_color;
 
-	ambient_col = ambient(hit->color,
+	amb = ambient(hit->color,
 					shapes->ambient.color,
 					shapes->ambient.ratio);
-	diffuse_col = diffuse(*hit, shapes->light);
-	final_col = color_add(ambient_col, diffuse_col);
-	pixel_color = color_to_int(final_col);
+	final = amb;
+	if (!in_shadow(hit, shapes))
+	{
+		diff = diffuse(*hit, shapes->light);
+		spec = specular(*hit, shapes->light, data->pov->cam, 32.0);
+		final = color_add(color_add(amb, diff), spec);
+	}
+	pixel_color = color_to_int(final);
 	my_mlx_pixel_put(data->img, x, y, pixel_color);
+}
+
+void	render_scene(t_data *data)
+{
+    double	scale;
+	t_hit	hit;
+
+	scale = tan((data->pov->fov * 0.5) * PI / 180);
+
+	clear_image(data->img);
+	for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < WIDTH; x++) {
+            data->pov->x = (2 * (x + 0.5) / (double)WIDTH - 1) * scale * (WIDTH / (double)HEIGHT);
+            data->pov->y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
+            data->pov->dir = vec_norm(vec(data->pov->x, data->pov->y, -1));
+            if (hit_sphere(data->pov->cam, data->pov->dir, data->shapes->sphere, &hit))
+				render_pixel(data, &hit, data->shapes, x, y);
+			// else if (hit_cylinder(data->pov->cam, data->pov->dir, data->shapes->cylinder, &hit))
+			// 	render_pixel(data, &hit, data->shapes, x, y);
+			// else if (hit_plane(data->pov->cam, data->pov->dir, data->shapes->plane, &hit))
+			// 	render_pixel(data, &hit, data->shapes, x, y);
+            else
+                my_mlx_pixel_put(data->img, x, y, 0x000000);
+        }
+    }
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img->img, 0, 0);
 }
