@@ -8,6 +8,12 @@
 #include "shapes.h"
 #include "libft/libft.h"
 
+#ifdef DEBUG
+# define DEBUG_ON 1
+#else
+# define DEBUG_ON 0
+#endif
+
 #define PI 3.141592653589793
 #define WIDTH  1024
 #define HEIGHT 768
@@ -41,9 +47,12 @@ typedef	struct s_pov
 {
 	t_vec	cam;
 	t_vec	dir;
+	t_vec	forward;
+	t_vec	right;
+	t_vec	up;
 	double	fov;
-	double	x;
-	double	y;
+	double	aspect;
+	double	scale;
 }	t_pov;
 
 typedef struct s_img
@@ -65,6 +74,8 @@ typedef	struct s_data
 }	t_data;
 
 //math------------------------------------------------------------
+//----------------------------camera------------------------------
+void	axis_prep(t_data *data);
 //----------------------------vectors-----------------------------
 double	discriminant(double a, double b, double c);
 t_vec	vec(double x, double y, double z);
@@ -73,6 +84,7 @@ t_vec	vec_sub(t_vec a, t_vec b);
 t_vec	vec_scale(t_vec v, double s);
 double	vec_dot(t_vec a, t_vec b);
 t_vec	vec_norm(t_vec v);
+t_vec	vec_cross(t_vec a, t_vec b);
 //----------------------------color-------------------------------
 t_color	color(int c); // FFFFFF → 255,255,255
 int 	color_to_int(t_color c); // 255,255,255 → FFFFFF
@@ -98,5 +110,8 @@ int		cyltop(t_cylinder cyl, t_vec orig, t_vec dir, t_hit *hit);
 int		cylbot(t_cylinder cyl, t_vec orig, t_vec dir, t_hit *hit);
 int		hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl, t_hit *hit);
 int		hit_plane(t_vec orig, t_vec dir, t_plane pl, t_hit *hit);
+
+//DEBUG-----------------------------------------------------------
+int		moving(int keycode, t_data *data);
 
 #endif
