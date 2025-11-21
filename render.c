@@ -22,7 +22,6 @@ void	render_pixel(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y)
 	t_color spec;
 	t_color final;
 	int pixel_color;
-
 	amb = ambient(hit->color,
 					shapes->ambient.color,
 					shapes->ambient.ratio);
@@ -37,27 +36,57 @@ void	render_pixel(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y)
 	my_mlx_pixel_put(data->img, x, y, pixel_color);
 }
 
+int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
+{
+    t_hit temp;
+    int hit_any = 0;
+
+    closest_hit->t = 1e30;
+    if (hit_sphere(orig, dir, data->shapes->sphere, &temp))
+    {
+        if (temp.t < closest_hit->t)
+        {
+            *closest_hit = temp;
+            hit_any = 1;
+        }
+    }
+    if (hit_cylinder(orig, dir, data->shapes->cylinder, &temp))
+    {
+        if (temp.t < closest_hit->t)
+        {
+            *closest_hit = temp;
+            hit_any = 1;
+        }
+    }
+    if (hit_plane(orig, dir, data->shapes->plane, &temp))
+    {
+        if (temp.t < closest_hit->t)
+        {
+            *closest_hit = temp;
+            hit_any = 1;
+        }
+    }
+    return hit_any;
+}
+
 void	render_scene(t_data *data)
 {
-    double	scale;
 	t_hit	hit;
+	t_vec	ray;
+	double	px;
+	double	py;
 
-	scale = tan((data->pov->fov * 0.5) * PI / 180);
-
-	clear_image(data->img);
+	axis_prep(data);
 	for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
-            data->pov->x = (2 * (x + 0.5) / (double)WIDTH - 1) * scale * (WIDTH / (double)HEIGHT);
-            data->pov->y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
-            data->pov->dir = vec_norm(vec(data->pov->x, data->pov->y, -1));
-            if (hit_sphere(data->pov->cam, data->pov->dir, data->shapes->sphere, &hit))
+		for (int x = 0; x < WIDTH; x++) {
+			px = (2 * (x + 0.5) / WIDTH - 1) * data->pov->aspect * data->pov->scale;
+			py = (1 - 2 * (y + 0.5) / HEIGHT) * data->pov->scale;
+    		ray = vec_norm(vec_add(vec_add(vec_scale(data->pov->right, px),
+					vec_scale(data->pov->up, py)), data->pov->forward));
+            if (trace_ray(data, data->pov->cam, ray, &hit))
 				render_pixel(data, &hit, data->shapes, x, y);
-			// else if (hit_cylinder(data->pov->cam, data->pov->dir, data->shapes->cylinder, &hit))
-			// 	render_pixel(data, &hit, data->shapes, x, y);
-			// else if (hit_plane(data->pov->cam, data->pov->dir, data->shapes->plane, &hit))
-			// 	render_pixel(data, &hit, data->shapes, x, y);
             else
-                my_mlx_pixel_put(data->img, x, y, 0x000000);
+				my_mlx_pixel_put(data->img, x, y, 0x000000);
         }
     }
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img->img, 0, 0);
