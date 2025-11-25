@@ -1,0 +1,99 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aorth <aorth@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/17 12:15:00 by aorth             #+#    #+#              #
+#    Updated: 2025/11/25 12:23:49 by aorth            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = miniRT
+
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
+INCLUDES = -I./include
+
+# Source files
+SRCS = src/main.c \
+       src/parsing/parse_scene.c \
+       src/parsing/validate_file.c \
+       src/utils/ft_calloc.c \
+       src/utils/ft_empty_line.c \
+       src/utils/ft_itoa.c \
+       src/utils/ft_print_error.c \
+       src/utils/ft_putstr_fd.c \
+       src/utils/ft_split.c \
+       src/utils/ft_strlen.c \
+       src/utils/ft_substr.c \
+       src/utils/ft_trim.c \
+       src/utils/get_next_line.c \
+       src/utils/get_next_line_utils.c \
+	   src/utils/ft_is_whitespace.c \
+	   src/parsing/parse_ambient.c \
+	   src/parsing/parse_helper.c \
+	   src/utils/ft_free_array.c \
+	   src/utils/ft_atoi.c \
+	   src/utils/ft_is_digit.c \
+	   src/parsing/parse_camera.c \
+	   src/parsing/validate_helper.c \
+	   src/parsing/parse_cylinder.c \
+	   src/parsing/parse_light.c \
+	   src/parsing/parse_sphere.c \
+	   src/parsing/parse_plane.c \
+	   src/parsing/validate_scene.c \
+	   src/utils/free_scene.c \
+	   src/parsing/init_scene.c
+
+# Object files
+OBJS = $(SRCS:.c=.o)
+
+# Colors for pretty output
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+RED = \033[0;31m
+RESET = \033[0m
+
+# Rules
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	@echo "$(BLUE)Linking $(NAME)...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lm
+	@echo "$(GREEN)✓ $(NAME) created successfully!$(RESET)"
+
+%.o: %.c
+	@echo "$(BLUE)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+clean:
+	@echo "$(RED)Cleaning object files...$(RESET)"
+	@rm -f $(OBJS)
+	@echo "$(GREEN)✓ Object files cleaned!$(RESET)"
+
+fclean: clean
+	@echo "$(RED)Removing $(NAME)...$(RESET)"
+	@rm -f $(NAME)
+	@echo "$(GREEN)✓ $(NAME) removed!$(RESET)"
+
+re: fclean all
+
+# Test with basic scene
+test: $(NAME)
+	@echo "$(BLUE)Testing with scenes/basic.rt...$(RESET)"
+	@./$(NAME) scenes/basic.rt
+
+# Test with invalid file
+test_error: $(NAME)
+	@echo "$(BLUE)Testing error handling...$(RESET)"
+	@./$(NAME) scenes/nonexistent.rt
+	@./$(NAME) scenes/basic.txt
+
+# Run with valgrind
+valgrind: $(NAME)
+	@echo "$(BLUE)Running valgrind...$(RESET)"
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) scenes/basic.rt
+
+.PHONY: all clean fclean re test test_error valgrind
