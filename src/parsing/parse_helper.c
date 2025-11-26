@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 11:37:00 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:30:43 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 01:08:49 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ int	parse_color(char *str, t_color *color)
 	if (count_array(split) != 3)
 		return (free_array(split), \
 			print_error("Color must have exactly 3 values (R,G,B)"), 0);
-	color->r = ft_atoi(split[0]);
+	color->r = ft_atol(split[0]);
 	if (color->r > 255 || color->r < 0)
 		return (free_array(split), \
 			print_error("Color values must be in range [0, 255]"), 0);
-	color->g = ft_atoi(split[1]);
+	color->g = ft_atol(split[1]);
 	if (color->g > 255 || color->g < 0)
 		return (free_array(split), \
 			print_error("Color values must be in range [0, 255]"), 0);
-	color->b = ft_atoi(split[2]);
+	color->b = ft_atol(split[2]);
 	if (color->b > 255 || color->b < 0)
 		return (free_array(split), \
 			print_error("Color values must be in range [0, 255]"), 0);
@@ -96,7 +96,7 @@ int	parse_int(char *str, int *value)
 {
 	int	temp;
 
-	temp = ft_atoi(str);
+	temp = ft_atol(str);
 	if (temp < 0 || temp > 180)
 		return (print_error("Camera FOV must be in range [0, 180]"), 0);
 	*value = temp;
