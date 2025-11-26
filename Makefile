@@ -1,5 +1,5 @@
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 MLX		= -lmlx -lX11 -lXext -lm
 HEADERS = include/vector.h \
 		  include/color.h \
@@ -39,14 +39,16 @@ SRC		= src/main.c \
 
 OBJ_DIR      = obj
 OBJ_DEBUGDIR = obj_debug
-OBJ          = $(SRC:.c=.o)
-OBJ_DEBUG    = $(SRC:.c=.o)
+OBJ          = $(addprefix $(OBJ_DIR)/,      $(SRC:.c=.o))
+OBJ_DEBUG    = $(addprefix $(OBJ_DEBUGDIR)/, $(SRC:.c=.o))
 LIBFT	= libft/libft.a
 
-%.o: src/%.c $(HEADERS)
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: src/%.c $(HEADERS)
+$(OBJ_DEBUGDIR)/%.o: %.c
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -DDEBUG -c $< -o $@
 
 all: $(NAME)

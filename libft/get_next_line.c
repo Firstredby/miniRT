@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:44:56 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/26 10:38:51 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:08:47 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*ft_extract_next_line(char *buffer, char *line)
 	if (ft_strchr_int(buffer, '\0') != -1 && ft_strchr_int(buffer, '\n') == -1)
 		return (ft_free(&buffer), NULL);
 	else
-		i = ft_strlen_size(line);
-	next_line = ft_calloc((ft_strlen_size(buffer) - i + 1), sizeof(char));
+		i = ft_strlen(line);
+	next_line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
 	if (!next_line)
 		return (ft_free(&buffer), NULL);
 	j = 0;

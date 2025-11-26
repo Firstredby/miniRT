@@ -28,25 +28,25 @@ t_vec rotate_y(t_vec v, double angle)
 int	moving(int keycode, t_data *data)
 {
 	if (keycode == 'w')
-		data->pov->cam = vec_add(data->pov->cam, vec_scale(data->pov->forward, 0.2));
+		data->scene->camera->cam = vec_add(data->scene->camera->cam, vec_scale(data->scene->camera->forward, 0.2));
 	else if (keycode == 's')
-		data->pov->cam = vec_sub(data->pov->cam, vec_scale(data->pov->forward, 0.2));
+		data->scene->camera->cam = vec_sub(data->scene->camera->cam, vec_scale(data->scene->camera->forward, 0.2));
 	else if (keycode == 'd')
-		data->pov->cam = vec_add(data->pov->cam, vec_scale(data->pov->right, 0.2));
+		data->scene->camera->cam = vec_add(data->scene->camera->cam, vec_scale(data->scene->camera->right, 0.2));
 	else if (keycode == 'a')
-		data->pov->cam = vec_sub(data->pov->cam, vec_scale(data->pov->right, 0.2));
+		data->scene->camera->cam = vec_sub(data->scene->camera->cam, vec_scale(data->scene->camera->right, 0.2));
 	else if (keycode == ' ')
-		data->pov->cam = vec_add(data->pov->cam, vec_scale(data->pov->up, 0.2));
+		data->scene->camera->cam = vec_add(data->scene->camera->cam, vec_scale(data->scene->camera->up, 0.2));
 	else if (keycode == 'c')
-		data->pov->cam = vec_sub(data->pov->cam, vec_scale(data->pov->up, 0.2));
+		data->scene->camera->cam = vec_sub(data->scene->camera->cam, vec_scale(data->scene->camera->up, 0.2));
 	else if (keycode == 65362)
-		data->pov->dir = rotate_axis(data->pov->dir, data->pov->right, 0.05);
+		data->scene->camera->dir = rotate_axis(data->scene->camera->dir, data->scene->camera->right, 0.05);
 	else if (keycode == 65364)
-		data->pov->dir = rotate_axis(data->pov->dir, data->pov->right, -0.05);
+		data->scene->camera->dir = rotate_axis(data->scene->camera->dir, data->scene->camera->right, -0.05);
 	else if (keycode == 65363)
-		data->pov->dir = rotate_y(data->pov->dir, -0.05);
+		data->scene->camera->dir = rotate_y(data->scene->camera->dir, -0.05);
 	else if (keycode == 65361)
-		data->pov->dir = rotate_y(data->pov->dir, 0.05);
+		data->scene->camera->dir = rotate_y(data->scene->camera->dir, 0.05);
 	clear_image(data->img);
 	render_scene(data);
 	return (0);

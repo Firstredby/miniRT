@@ -19,7 +19,7 @@ typedef struct s_hit
 }	t_hit;
 
 void    my_mlx_pixel_put(struct s_img *img, int x, int y, int color);
-void    render_pixel(struct s_data *data, t_hit *hit, t_shapes *shapes, int x, int y);
+void    render_pixel(struct s_data *data, t_hit *hit, int x, int y);
 void    render_scene(struct s_data *data);
 void    clear_image(struct s_img *img);
 

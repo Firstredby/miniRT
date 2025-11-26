@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:15 by ishchyro          #+#    #+#             */
-/*   Updated: 2024/12/21 07:25:48 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:06:33 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*newstring;
-	int		i;
-	int		j;
+	size_t	t_len;
+	char	*s3;
+	size_t	i;
+	size_t	j;
 
 	if (!s1 && !s2)
-		return (newstring = ft_calloc(1, 1));
-	newstring = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+		return (NULL);
+	t_len = (ft_strlen(s1) + ft_strlen(s2));
+	s3 = ft_calloc((t_len + 1), sizeof(char));
+	if (!s3)
+		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[j] && newstring)
-		newstring[i++] = s1[j++];
-	j = 0;
-	while (s2[j] && newstring)
-		newstring[i++] = s2[j++];
-	return (newstring);
+	while (s1 && s1[i] != '\0')
+	{
+		s3[i++] = s1[j++];
+	}
+	i = 0;
+	while (s2 && s2[i] != '\0')
+	{
+		s3[j++] = s2[i++];
+	}
+	return (s3);
 }

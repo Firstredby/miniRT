@@ -5,7 +5,7 @@
 # include "color.h"
 
 struct s_hit;
-struct s_shapes;
+struct s_scene;
 
 typedef struct s_light
 {
@@ -24,6 +24,6 @@ typedef struct s_ambient
 t_color ambient(t_color scene, t_color color, double intensity);
 t_color diffuse(struct s_hit hit, t_light light);
 t_color specular(struct s_hit hit, t_light light, t_vec cam_pos, double shininess);
-int     in_shadow(struct s_hit *hit, struct s_shapes *shapes);
+int     in_shadow(struct s_hit *hit, struct s_scene *scene);
 
 #endif

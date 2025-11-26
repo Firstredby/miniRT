@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 11:37:00 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/26 01:08:49 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:47:02 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ int	parse_double(char *str, double *value)
 int	parse_color(char *str, t_color *color)
 {
 	char	**split;
+	long	r;
+	long	g;
+	long	b;
 
 	split = ft_split(str, ',');
 	if (!split)
@@ -56,18 +59,21 @@ int	parse_color(char *str, t_color *color)
 	if (count_array(split) != 3)
 		return (free_array(split), \
 			print_error("Color must have exactly 3 values (R,G,B)"), 0);
-	color->r = ft_atol(split[0]);
-	if (color->r > 255 || color->r < 0)
+	r = ft_atol(split[0]);
+	if (r > 255 || r < 0)
 		return (free_array(split), \
 			print_error("Color values must be in range [0, 255]"), 0);
-	color->g = ft_atol(split[1]);
-	if (color->g > 255 || color->g < 0)
+	g = ft_atol(split[1]);
+	if (g > 255 || g < 0)
 		return (free_array(split), \
 			print_error("Color values must be in range [0, 255]"), 0);
-	color->b = ft_atol(split[2]);
-	if (color->b > 255 || color->b < 0)
+	b = ft_atol(split[2]);
+	if (b > 255 || b < 0)
 		return (free_array(split), \
 			print_error("Color values must be in range [0, 255]"), 0);
+	color->r = r / 255.0;
+	color->g = g / 255.0;
+	color->b = b / 255.0;
 	free_array(split);
 	return (1);
 }

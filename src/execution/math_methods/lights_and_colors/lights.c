@@ -22,25 +22,51 @@ t_color	specular(t_hit hit, t_light light, t_vec cam_pos, double shininess)
 	return color_scale(light.color, spec * light.brightness);
 }
 
-int	in_shadow(t_hit *hit, t_shapes *shapes)
+int	in_shadow(t_hit *hit, t_scene *scene)
 {
-	t_vec L = vec_norm(vec_sub(shapes->light->pos, hit->point));
+	t_vec L = vec_norm(vec_sub(scene->light->pos, hit->point));
 	t_vec shadow_orig = vec_add(hit->point, vec_scale(hit->normal, 1e-4));
 	t_hit shadow_hit;
+	double light_dist;
+	t_sphere *sphere;
+	t_cylinder *cylinder;
+	t_plane *plane;
 
-	if (hit_sphere(shadow_orig, L, *shapes->sphere, &shadow_hit))
+	light_dist = sqrt(vec_dot(vec_sub(scene->light->pos, hit->point),
+						vec_sub(scene->light->pos, hit->point)));
+	
+	sphere = scene->sphere;
+	while (sphere)
 	{
-		double light_dist = sqrt(vec_dot(vec_sub(shapes->light->pos, hit->point),
-							vec_sub(shapes->light->pos, hit->point)));
-		if (shadow_hit.t > 0 && shadow_hit.t < light_dist)
-			return (1);
+		if (hit_sphere(shadow_orig, L, *sphere, &shadow_hit))
+		{
+			if (shadow_hit.t > 0 && shadow_hit.t < light_dist)
+				return (1);
+		}
+		sphere = sphere->next;
 	}
-	else if (hit_cylinder(shadow_orig, L, *shapes->cylinder, &shadow_hit))
+	
+	cylinder = scene->cylinder;
+	while (cylinder)
 	{
-		double light_dist = sqrt(vec_dot(vec_sub(shapes->light->pos, hit->point),
-							vec_sub(shapes->light->pos, hit->point)));
-		if (shadow_hit.t > 0 && shadow_hit.t < light_dist)
-			return (1);
+		if (hit_cylinder(shadow_orig, L, *cylinder, &shadow_hit))
+		{
+			if (shadow_hit.t > 0 && shadow_hit.t < light_dist)
+				return (1);
+		}
+		cylinder = cylinder->next;
 	}
+	
+	plane = scene->plane;
+	while (plane)
+	{
+		if (hit_plane(shadow_orig, L, *plane, &shadow_hit))
+		{
+			if (shadow_hit.t > 0 && shadow_hit.t < light_dist)
+				return (1);
+		}
+		plane = plane->next;
+	}
+	
 	return (0);
 }

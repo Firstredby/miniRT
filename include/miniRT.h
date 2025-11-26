@@ -37,8 +37,7 @@ typedef struct s_data
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_img		*img;
-	t_shapes	*shapes;
-	t_camera		*pov;
+	t_scene		*scene;
 }	t_data;
 
 int		moving(int keycode, t_data *data);
