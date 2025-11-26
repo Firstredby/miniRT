@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_empty_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:05:29 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:13:43 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:33:18 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../../include/parsing.h"
 
 int	empty_line(char *line)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cylinder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:47:28 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:09:52 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:20:50 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	parse_cylinder(char *line, t_scene *scene, t_tracking *tracking)
 		return (free_array(split), 0);
 	if (!validate_normalized(scene->cylinder->axis, "Cylinder"))
 		return (free_array(split), 0);
-	if (!parse_double(split[3], &scene->cylinder->diameter))
+	if (!parse_double(split[3], &scene->cylinder->radius))
 		return (free_array(split), 0);
-	if (scene->cylinder->diameter <= 0)
-		return (print_error("Cylinder diameter must be greater than 0"), \
+	if (scene->cylinder->radius <= 0)
+		return (print_error("Cylinder radius must be greater than 0"), \
 			free_array(split), 0);
 	if (!parse_double(split[4], &scene->cylinder->height))
 		return (free_array(split), 0);

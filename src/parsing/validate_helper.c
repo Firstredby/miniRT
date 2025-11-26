@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   validate_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:00:05 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:13:43 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:32:39 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../include/miniRT.h"
 
 int	validate_normalized(t_vec v, char *ele)
 {

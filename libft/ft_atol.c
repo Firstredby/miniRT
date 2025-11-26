@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:04:24 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/26 01:07:52 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:35:08 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	is_valid_help(long temp)
+{
+	if (temp < -2147483648 || temp > 2147483647)
+		return (0);
+	return (1);
+}
+
+static int	atol_helper(const char *str, int n)
+{
+	int	i;
+
+	i = n;
+	while (str[i] == '0')
+		i++;
+	if (ft_strlen(str) - i > 10)
+		return (0);
+	return (1);
+}
 
 long	ft_atol(const char *nptr)
 {
@@ -29,7 +48,7 @@ long	ft_atol(const char *nptr)
 	}
 	if (!ft_isdigit(nptr[i]))
 		print_error("Agrument is not a number");
-	if (!atoi_helper(nptr, i))
+	if (!atol_helper(nptr, i))
 		print_error("Argument is too long");
 	result = 0;
 	while (nptr[i] && ft_isdigit(nptr[i]))

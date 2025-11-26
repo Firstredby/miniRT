@@ -1,11 +1,17 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdint.h>
+
 # include "vector.h"
 # include "color.h"
 # include "lights.h"
 # include "shapes.h"
 # include "camera.h"
+# include "../libft/libft.h"
 
 # define ELEM_AMBIENT   1
 # define ELEM_CAMERA    2
@@ -51,6 +57,7 @@ int			validate_normalized(t_vec v, char *ele);
 
 t_scene		*parse_scene(char *filename);
 int			validate_file(char *filename);
+int			validate_scene(t_scene *scene, t_tracking *tracking);
 int			empty_line(char *line);
 char		*trim_whitespace(char *str);
 int			is_whitespace(char c);

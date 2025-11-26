@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:50:56 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 11:38:58 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:33:20 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../../include/parsing.h"
 
 int	count_array(char **array)
 {

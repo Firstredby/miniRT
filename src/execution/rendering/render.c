@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "../../../include/miniRT.h"
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -23,13 +23,13 @@ void	render_pixel(t_data *data, t_hit *hit, t_shapes *shapes, int x, int y)
 	t_color final;
 	int pixel_color;
 	amb = ambient(hit->color,
-					shapes->ambient.color,
-					shapes->ambient.ratio);
+					shapes->ambient->color,
+					shapes->ambient->ratio);
 	final = amb;
 	if (!in_shadow(hit, shapes))
 	{
-		diff = diffuse(*hit, shapes->light);
-		spec = specular(*hit, shapes->light, data->pov->cam, 32.0);
+		diff = diffuse(*hit, *shapes->light);
+		spec = specular(*hit, *shapes->light, data->pov->cam, 32.0);
 		final = color_add(color_add(amb, diff), spec);
 	}
 	pixel_color = color_to_int(final);
@@ -42,7 +42,7 @@ int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
     int hit_any = 0;
 
     closest_hit->t = 1e30;
-    if (hit_sphere(orig, dir, data->shapes->sphere, &temp))
+    if (hit_sphere(orig, dir, *data->shapes->sphere, &temp))
     {
         if (temp.t < closest_hit->t)
         {
@@ -50,7 +50,7 @@ int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
             hit_any = 1;
         }
     }
-    if (hit_cylinder(orig, dir, data->shapes->cylinder, &temp))
+    if (hit_cylinder(orig, dir, *data->shapes->cylinder, &temp))
     {
         if (temp.t < closest_hit->t)
         {
@@ -58,7 +58,7 @@ int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
             hit_any = 1;
         }
     }
-    if (hit_plane(orig, dir, data->shapes->plane, &temp))
+    if (hit_plane(orig, dir, *data->shapes->plane, &temp))
     {
         if (temp.t < closest_hit->t)
         {

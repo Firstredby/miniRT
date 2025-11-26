@@ -12,6 +12,7 @@ typedef struct s_light
 	t_vec	pos;
 	t_color	color;
 	double	brightness;
+	struct s_light	*next;
 }	t_light;
 
 typedef struct s_ambient

@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "../../include/miniRT.h"
 
 t_vec rotate_axis(t_vec v, t_vec axis, double angle)
 {

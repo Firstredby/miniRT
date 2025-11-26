@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "../../../../include/miniRT.h"
 
 t_vec vec_norm(t_vec v)
 {

@@ -1,4 +1,4 @@
-#include "/include/miniRT.h"
+#include "../../../../include/miniRT.h"
 
 t_color	color(int c)
 {

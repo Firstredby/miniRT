@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "../../../../include/miniRT.h"
 
 int hit_sphere(t_vec orig, t_vec dir, t_sphere s, t_hit *hit)
 {
@@ -21,7 +21,7 @@ int hit_sphere(t_vec orig, t_vec dir, t_sphere s, t_hit *hit)
 	hit->t = t;
 	hit->point = vec_add(orig, vec_scale(dir, t));
 	hit->normal = vec_norm(vec_sub(hit->point, s.center));
-	hit->color = color(s.color);
+	hit->color = s.color;
 	return (1);
 }
 
@@ -47,7 +47,7 @@ int	cyltop(t_cylinder cyl, t_vec orig, t_vec dir, t_hit *hit)
 			    hit->t = t;
 			    hit->point = p;
 				hit->normal = cyl.axis;
-			    return (hit->color = color(cyl.color), 1);
+			    return (hit->color = cyl.color, 1);
 			}
 		}
 	}
@@ -76,7 +76,7 @@ int	cylbot(t_cylinder cyl, t_vec orig, t_vec dir, t_hit *hit)
 			    hit->t = t;
 			    hit->point = p;
 				hit->normal = vec_scale(cyl.axis, -1);
-			    return (hit->color = color(cyl.color), 1);
+			    return (hit->color = cyl.color, 1);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ int	hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl, t_hit *hit)
 	hit->t = t;
 	hit->point = p;
 	hit->normal = normal;
-	hit->color = color(cyl.color);
+	hit->color = cyl.color;
 	return (1);
 }
 
@@ -126,7 +126,7 @@ int	hit_plane(t_vec orig, t_vec dir, t_plane pl, t_hit *hit)
 	hit->t = t;
 	hit->point = vec_add(orig, vec_scale(dir, t));
 	hit->normal = pl.axis;
-	hit->color = color(pl.color);
+	hit->color = pl.color;
     if (t < 0)
         return (0);
     return (1);

@@ -5,11 +5,13 @@
 # include "color.h"
 # include "lights.h"
 
+struct s_hit;
+
 typedef struct s_sphere
 {
 	t_vec				center;
 	double				radius;
-	int					color;
+	t_color				color;
 	struct s_sphere		*next;
 }	t_sphere;
 
@@ -17,7 +19,7 @@ typedef struct s_plane
 {
 	t_vec				center;
 	t_vec				axis;
-	int					color;
+	t_color				color;
 	struct s_plane		*next;
 }	t_plane;
 
@@ -27,7 +29,7 @@ typedef struct s_cylinder
 	t_vec				 axis;
 	double				 radius;
 	double				 height;
-	int					 color;
+	t_color				 color;
 	struct s_cylinder	*next;
 }	t_cylinder;
 
@@ -40,10 +42,10 @@ typedef struct s_shapes
 	t_ambient	*ambient;
 }	t_shapes;
 
-int     hit_sphere(t_vec orig, t_vec dir, t_sphere s, t_hit *hit);
-int     hit_plane(t_vec orig, t_vec dir, t_plane pl, t_hit *hit);
-int     cyltop(t_cylinder cyl, t_vec orig, t_vec dir, t_hit *hit);
-int     cylbot(t_cylinder cyl, t_vec orig, t_vec dir, t_hit *hit);
-int     hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl, t_hit *hit);
+int     hit_sphere(t_vec orig, t_vec dir, t_sphere s, struct s_hit *hit);
+int     hit_plane(t_vec orig, t_vec dir, t_plane pl, struct s_hit *hit);
+int     cyltop(t_cylinder cyl, t_vec orig, t_vec dir, struct s_hit *hit);
+int     cylbot(t_cylinder cyl, t_vec orig, t_vec dir, struct s_hit *hit);
+int     hit_cylinder(t_vec orig, t_vec dir, t_cylinder cyl, struct s_hit *hit);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_plane.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 11:02:39 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:09:52 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:25:44 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	parse_plane(char *line, t_scene *scene, t_tracking *tracking)
 	if (!add_plane(scene))
 		return (free_array(split), \
 			print_error("Memory allocation failed"), 0);
-	if (!parse_vec(split[1], &scene->plane->point))
+	if (!parse_vec(split[1], &scene->plane->center))
 		return (free_array(split), 0);
-	if (!parse_vec(split[2], &scene->plane->normal))
+	if (!parse_vec(split[2], &scene->plane->axis))
 		return (free_array(split), 0);
-	if (!validate_normalized(scene->plane->normal, "Plane"))
+	if (!validate_normalized(scene->plane->axis, "Plane"))
 		return (free_array(split), 0);
 	if (!parse_color(split[3], &scene->plane->color))
 		return (free_array(split), 0);

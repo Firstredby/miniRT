@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:03:18 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/26 01:07:19 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:36:56 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,8 @@ char	*ft_strtrim(const char *s1, const char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+
+//utils
+int	print_error(char *message);
+
 #endif  //LIBFT_H

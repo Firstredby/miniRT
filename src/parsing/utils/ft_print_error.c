@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:02:28 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:32:29 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:33:51 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../../include/parsing.h"
 
 int	file_error(char *message, char *filename)
 {

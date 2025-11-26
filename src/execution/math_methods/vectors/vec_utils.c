@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "../../../../include/miniRT.h"
 
 t_vec vec(double x, double y, double z)
 {

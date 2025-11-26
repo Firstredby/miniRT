@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_sphere.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 11:02:29 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:09:52 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:30:57 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int	parse_sphere(char *line, t_scene *scene, t_tracking *tracking)
 			print_error("Memory allocation failed"), 0);
 	if (!parse_vec(split[1], &scene->sphere->center))
 		return (free_array(split), 0);
-	if (!parse_double(split[2], &scene->sphere->diameter))
+	if (!parse_double(split[2], &scene->sphere->radius))
 		return (free_array(split), 0);
-	if (scene->sphere->diameter <= 0)
-		return (print_error("Sphere diameter must be greater than 0"), \
+	if (scene->sphere->radius <= 0)
+		return (print_error("Sphere radius must be greater than 0"), \
 			free_array(split), 0);
 	if (!parse_color(split[3], &scene->sphere->color))
 		return (free_array(split), 0);

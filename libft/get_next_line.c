@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:44:56 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/12 11:58:42 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 10:38:51 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/get_next_line.h"
+#include "get_next_line.h"
 
 char	*ft_extract_next_line(char *buffer, char *line)
 {

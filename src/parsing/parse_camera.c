@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:42:34 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:09:09 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/26 11:08:19 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	parse_camera(char *line, t_scene *scene, t_tracking *tracking)
 	if (count_array(split) < 4)
 		return (free_array(split), \
 			print_error("Camera: missing parameters"), 0);
-	if (!parse_vec(split[1], &scene->camera->pos))
+	if (!parse_vec(split[1], &scene->camera->cam))
 		return (free_array(split), 0);
-	if (!parse_vec(split[2], &scene->camera->orientation))
+	if (!parse_vec(split[2], &scene->camera->dir))
 		return (free_array(split), 0);
-	if (!validate_normalized(scene->camera->orientation, "Camera"))
+	if (!validate_normalized(scene->camera->dir, "Camera"))
 		return (free_array(split), 0);
-	if (!parse_int(split[3], &scene->camera->fov))
+	if (!parse_double(split[3], &scene->camera->fov))
 		return (free_array(split), 0);
 	tracking->has_camera = 1;
 	free_array(split);

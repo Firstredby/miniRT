@@ -1,13 +1,9 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <unistd.h>
-# include <stdlib.h>
 # include <math.h>
 # include <mlx.h>
 # include <limits.h>
-# include <fcntl.h>
-# include <stdint.h>
 
 # include "vector.h"
 # include "color.h"
@@ -16,6 +12,16 @@
 # include "camera.h"
 # include "render.h"
 # include "parsing.h"
+
+#ifdef DEBUG
+# define DEBUG_ON 1
+#else
+# define DEBUG_ON 0
+#endif
+
+#define PI 3.141592653589793
+#define WIDTH  1024
+#define HEIGHT 768
 
 typedef struct s_img
 {
