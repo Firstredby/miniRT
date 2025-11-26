@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:03:18 by ishchyro          #+#    #+#             */
-/*   Updated: 2024/12/21 05:23:05 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/26 01:07:19 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <unistd.h>
+# include "get_next_line.h"
 
 typedef struct s_list
 {
@@ -24,7 +25,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-int		ft_atoi(const char *nptr);
+long	ft_atol(const char *nptr);
 void	ft_bzero(char *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_isalnum(int c);

@@ -3,35 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 15:26:24 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/18 15:33:04 by aorth            ###   ########.fr       */
+/*   Created: 2024/09/02 13:04:24 by ishchyro          #+#    #+#             */
+/*   Updated: 2025/11/26 01:07:52 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "libft.h"
 
-static int	is_valid_help(long temp)
-{
-	if (temp < -2147483648 || temp > 2147483647)
-		return (0);
-	return (1);
-}
-
-static int	atoi_helper(const char *str, int n)
-{
-	int	i;
-
-	i = n;
-	while (str[i] == '0')
-		i++;
-	if (ft_strlen(str) - i > 10)
-		return (0);
-	return (1);
-}
-
-long	ft_atoi(const char *nptr)
+long	ft_atol(const char *nptr)
 {
 	long	result;
 	int		sign;

@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "include/miniRT.h"
 
 int	handle_key(int keycode, t_data *data)
 {
@@ -29,7 +29,7 @@ int main(void)
 	t_img	img;
 	img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	t_pov	pov = {
+	t_camera	pov = {
 		.cam = vec(7, 0, -5.0),
 		.dir = vec_norm((t_vec){-1, 0, 0}),
 		.fov = 70.0
