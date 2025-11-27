@@ -6,7 +6,7 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:45:48 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/26 17:54:01 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 10:39:07 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strchr_int(const char *s, int c);
 size_t	ft_strlen(const char *s);
 void	ft_free(char **ptr);
+double	ft_atof(const char *str);
 
 #endif

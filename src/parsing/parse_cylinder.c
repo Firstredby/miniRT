@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cylinder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:47:28 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/26 11:20:50 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/11/27 10:57:53 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ int	parse_cylinder(char *line, t_scene *scene, t_tracking *tracking)
 	if (!split)
 		return (print_error("Memory allocation failed"), 0);
 	if (!add_cylinder(scene))
-		return (free_array(split), \
-			print_error("Memory allocation failed"), 0);
-	if (!parse_vec(split[1], &scene->cylinder->center))
-		return (free_array(split), 0);
-	if (!parse_vec(split[2], &scene->cylinder->axis))
-		return (free_array(split), 0);
-	if (!validate_normalized(scene->cylinder->axis, "Cylinder"))
+		return (free_array(split), print_error("Memory allocation failed"), 0);
+	if (!parse_vec(split[1], &scene->cylinder->center)
+		|| !parse_vec(split[2], &scene->cylinder->axis)
+		|| !validate_normalized(scene->cylinder->axis, "Cylinder"))
 		return (free_array(split), 0);
 	if (!parse_double(split[3], &scene->cylinder->radius))
 		return (free_array(split), 0);
@@ -60,7 +57,5 @@ int	parse_cylinder(char *line, t_scene *scene, t_tracking *tracking)
 			free_array(split), 0);
 	if (!parse_color(split[5], &scene->cylinder->color))
 		return (free_array(split), 0);
-	tracking->object_cout += 1;
-	free_array(split);
-	return (1);
+	return (free_array(split), tracking->object_cout += 1, 1);
 }

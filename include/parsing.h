@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 11:26:32 by aorth             #+#    #+#             */
+/*   Updated: 2025/11/27 11:26:33 by aorth            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -53,6 +65,7 @@ int			parse_vec(char *str, t_vec *vec);
 int			parse_color(char *str, t_color *color);
 int			parse_double(char *str, double *value);
 int			parse_int(char *str, int *value);
+int			parse_vec(char *str, t_vec *vec);
 int			validate_normalized(t_vec v, char *ele);
 
 t_scene		*parse_scene(char *filename);

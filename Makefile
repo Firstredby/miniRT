@@ -35,7 +35,9 @@ SRC		= src/main.c \
 		  src/execution/math_methods/lights_and_colors/lights.c \
 		  src/execution/math_methods/shapes_calculation/shapes_calculation.c \
 		  src/execution/math_methods/vectors/vec_utils.c \
-		  src/execution/math_methods/vectors/vec_utils2.c 
+		  src/execution/math_methods/vectors/vec_utils2.c \
+		  src/parsing/utils/ft_atof.c \
+		  src/parsing/parse_vec.c
 
 OBJ_DIR      = obj
 OBJ_DEBUGDIR = obj_debug
@@ -63,8 +65,8 @@ debug: $(OBJ_DEBUG)
 
 clean:
 	make clean -C libft
-	rm -rf $(OBJ)
-	rm -rf $(OBJ_DEBUG=)
+	rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DEBUGDIR)
 
 fclean: clean
 	make fclean -C libft

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniRT.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 11:26:13 by aorth             #+#    #+#             */
+/*   Updated: 2025/11/27 11:26:15 by aorth            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -13,15 +25,15 @@
 # include "render.h"
 # include "parsing.h"
 
-#ifdef DEBUG
-# define DEBUG_ON 1
-#else
-# define DEBUG_ON 0
-#endif
+# ifdef DEBUG
+#  define DEBUG_ON 1
+# else
+#  define DEBUG_ON 0
+# endif
 
-#define PI 3.141592653589793
-#define WIDTH  1024
-#define HEIGHT 768
+# define PI 3.141592653589793
+# define WIDTH  1024
+# define HEIGHT 768
 
 typedef struct s_img
 {
