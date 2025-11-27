@@ -1,114 +1,163 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 22:01:59 by ishchyro          #+#    #+#             */
+/*   Updated: 2025/11/27 22:02:08 by ishchyro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../include/miniRT.h"
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+int	trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
 {
-	char	*dst;
+	t_hit		temp;
+	int			hit_any;
+	t_sphere	*sphere;
+	t_cylinder	*cylinder;
+	t_plane		*plane;
 
-	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
-		return;
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	closest_hit->t = 1e30;
+	hit_any = 0;
+	sphere = data->scene->sphere;
+	while (sphere)
+	{
+		if (hit_sphere(orig, dir, *sphere, &temp))
+		{
+			if (temp.t > 0.001 && temp.t < closest_hit->t)
+			{
+				*closest_hit = temp;
+				hit_any = 1;
+			}
+		}
+		sphere = sphere->next;
+	}
+	cylinder = data->scene->cylinder;
+	while (cylinder)
+	{
+		if (hit_cylinder(orig, dir, *cylinder, &temp))
+		{
+			if (temp.t > 0.001 && temp.t < closest_hit->t)
+			{
+				*closest_hit = temp;
+				hit_any = 1;
+			}
+		}
+		cylinder = cylinder->next;
+	}
+	plane = data->scene->plane;
+	while (plane)
+	{
+		if (hit_plane(orig, dir, *plane, &temp))
+		{
+			if (temp.t > 0.001 && temp.t < closest_hit->t)
+			{
+				*closest_hit = temp;
+				hit_any = 1;
+			}
+		}
+		plane = plane->next;
+	}
+	return (hit_any);
 }
 
-void	clear_image(t_img *img)
+t_color	shade_pixel(t_data *data, t_hit *hit)
 {
-	ft_memset(img->addr, 0, HEIGHT * img->line_length);
-}
-
-void	render_pixel(t_data *data, t_hit *hit, int x, int y)
-{
-	t_color amb;
-	t_color diff;
-	t_color spec;
-	t_color final;
-	int     pixel_color;
+	t_color	amb;
+	t_color	diff;
+	t_color	spec;
+	t_color	final;
 
 	amb = ambient(hit->color,
-					data->scene->ambient->color,
-					data->scene->ambient->ratio);
+			data->scene->ambient->color,
+			data->scene->ambient->ratio);
 	final = amb;
 	if (!in_shadow(hit, data->scene))
 	{
 		diff = diffuse(*hit, *data->scene->light);
-		spec = specular(*hit, *data->scene->light, data->scene->camera->cam, 32.0);
+		spec = specular(*hit, *data->scene->light,
+				data->scene->camera->cam, 32.0);
 		final = color_add(color_add(amb, diff), spec);
 	}
-	pixel_color = color_to_int(final);
-	my_mlx_pixel_put(data->img, x, y, pixel_color);
+	return (final);
 }
 
-int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
-{
-    t_hit temp;
-    int hit_any = 0;
-    t_sphere *sphere;
-    t_cylinder *cylinder;
-    t_plane *plane;
-    closest_hit->t = 1e30;
-
-	sphere = data->scene->sphere;
-    while (sphere)
-    {
-        if (hit_sphere(orig, dir, *sphere, &temp))
-        {
-            if (temp.t > 0.001 && temp.t < closest_hit->t)
-			{
-                *closest_hit = temp;
-                hit_any = 1;
-			}
-        }
-        sphere = sphere->next;
-    }
-    cylinder = data->scene->cylinder;
-    while (cylinder)
-    {
-        if (hit_cylinder(orig, dir, *cylinder, &temp))
-        {
-            if (temp.t > 0.001 && temp.t < closest_hit->t)
-            {
-                *closest_hit = temp;
-                hit_any = 1;
-            }
-        }
-        cylinder = cylinder->next;
-    }
-    
-    plane = data->scene->plane;
-    while (plane)
-    {
-        if (hit_plane(orig, dir, *plane, &temp))
-        {
-            if (temp.t > 0.001 && temp.t < closest_hit->t)
-            {
-                *closest_hit = temp;
-                hit_any = 1;
-            }
-        }
-        plane = plane->next;
-    }
-    
-    return hit_any;
-}
-
-void	render_scene(t_data *data)
+t_color	render_single_ray(t_data *data, double px_x, double px_y)
 {
 	t_hit	hit;
 	t_vec	ray;
 	double	px;
 	double	py;
 
+	px = (2 * px_x / WIDTH - 1) * data->scene->camera->aspect
+		* data->scene->camera->scale;
+	py = (1 - 2 * px_y / HEIGHT) * data->scene->camera->scale;
+	ray = vec_add(
+			vec_add(
+				vec_scale(data->scene->camera->right, px),
+				vec_scale(data->scene->camera->up, py)),
+			data->scene->camera->forward);
+	if (trace_ray(data, data->scene->camera->cam, ray, &hit))
+		return (shade_pixel(data, &hit));
+	else
+		return ((t_color){0, 0, 0});
+}
+
+t_color	render_pixel(t_data *data, int x, int y)
+{
+	t_color	corners[4];
+	t_color	avg;
+	double	max_contrast;
+	double	contrast;
+	int		i;
+	int		j;
+
+	corners[0] = render_single_ray(data, x, y);
+	corners[1] = render_single_ray(data, x + 0.5, y);
+	corners[2] = render_single_ray(data, x, y + 0.5);
+	corners[3] = render_single_ray(data, x + 0.5, y + 0.5);
+	max_contrast = 0.0;
+	i = 0;
+	while (i < 3)
+	{
+		j = i + 1;
+		while (j < 4)
+		{
+			contrast = color_contrast(corners[i], corners[j++]);
+			if (contrast > max_contrast)
+				max_contrast = contrast;
+		}
+		i++;
+	}
+	avg = color(0x000000);
+	i = 0;
+	while (i < 4)
+		avg = color_add(avg, corners[i++]);
+	return (color_scale(avg, 0.25));
+}
+
+void	render_scene(t_data *data)
+{
+	t_color	c;
+	int		y;
+	int		x;
+
+	x = 0;
+	y = 0;
 	axis_prep(data);
-	for (int y = 0; y < HEIGHT; y++) {
-		for (int x = 0; x < WIDTH; x++) {
-			px = (2 * (x + 0.5) / WIDTH - 1) * data->scene->camera->aspect * data->scene->camera->scale;
-			py = (1 - 2 * (y + 0.5) / HEIGHT) * data->scene->camera->scale;
-    		ray = vec_norm(vec_add(vec_add(vec_scale(data->scene->camera->right, px),
-					vec_scale(data->scene->camera->up, py)), data->scene->camera->forward));
-            if (trace_ray(data, data->scene->camera->cam, ray, &hit))
-				render_pixel(data, &hit, x, y);
-            else
-				my_mlx_pixel_put(data->img, x, y, 0x000000);
-        }
-    }
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img->img, 0, 0);
+	while (y < HEIGHT)
+	{
+		while (x < WIDTH)
+		{
+			c = render_pixel(data, x, y);
+			my_mlx_pixel_put(data->img, x++, y, color_to_int(c));
+		}
+		x = 0;
+		y++;
+	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+		data->img->img, 0, 0);
 }

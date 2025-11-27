@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:22:34 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/27 15:22:47 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/27 20:29:54 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ int	in_shadow(t_hit *hit, t_scene *scene)
 	t_vec	shadow_orig;
 	double	light_dist;
 
-	l = vec_norm(vec_sub(scene->light->pos, hit->point));
-	shadow_orig = vec_add(hit->point, vec_scale(hit->normal, 1e-4));
-	light_dist = sqrt(vec_dot(vec_sub(scene->light->pos, hit->point),
-				vec_sub(scene->light->pos, hit->point)));
+	l = vec_sub(scene->light->pos, hit->point);
+	shadow_orig = vec_add(hit->point, vec_scale(hit->normal, 1e-3));
+	light_dist = vec_dot(l, l);
 	return (sphere_loop(l, shadow_orig, light_dist, scene)
 		|| cylinder_loop(l, shadow_orig, light_dist, scene)
 		|| plane_loop(l, shadow_orig, light_dist, scene));

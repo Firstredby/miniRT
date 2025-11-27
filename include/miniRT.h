@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:26:13 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 18:42:05 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/27 21:40:36 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <limits.h>
+# include <sys/time.h>
 
 # include "vector.h"
 # include "color.h"
