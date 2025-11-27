@@ -44,29 +44,27 @@ int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
     t_sphere *sphere;
     t_cylinder *cylinder;
     t_plane *plane;
-
     closest_hit->t = 1e30;
-    
-    sphere = data->scene->sphere;
+
+	sphere = data->scene->sphere;
     while (sphere)
     {
         if (hit_sphere(orig, dir, *sphere, &temp))
         {
-            if (temp.t < closest_hit->t)
-            {
+            if (temp.t > 0.001 && temp.t < closest_hit->t)
+			{
                 *closest_hit = temp;
                 hit_any = 1;
-            }
+			}
         }
         sphere = sphere->next;
     }
-    
     cylinder = data->scene->cylinder;
     while (cylinder)
     {
         if (hit_cylinder(orig, dir, *cylinder, &temp))
         {
-            if (temp.t < closest_hit->t)
+            if (temp.t > 0.001 && temp.t < closest_hit->t)
             {
                 *closest_hit = temp;
                 hit_any = 1;
@@ -80,7 +78,7 @@ int trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
     {
         if (hit_plane(orig, dir, *plane, &temp))
         {
-            if (temp.t < closest_hit->t)
+            if (temp.t > 0.001 && temp.t < closest_hit->t)
             {
                 *closest_hit = temp;
                 hit_any = 1;

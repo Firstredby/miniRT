@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 12:52:58 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/27 12:53:43 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:05:41 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ double	distance(double disc, double a, double b)
 	else if (t2 > 0)
 		return (t2);
 	else
-		return (0);
+		return (-1);
 }

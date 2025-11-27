@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 12:54:02 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/27 13:21:57 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:06:25 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	hit_sphere(t_vec orig, t_vec dir, t_sphere s, t_hit *hit)
 	if (disc < 0)
 		return (0);
 	hit->t = distance(disc, a, b);
+	if (hit->t < 0)
+		return (0);
 	hit->point = vec_add(orig, vec_scale(dir, hit->t));
 	hit->normal = vec_norm(vec_sub(hit->point, s.center));
 	hit->color = s.color;
