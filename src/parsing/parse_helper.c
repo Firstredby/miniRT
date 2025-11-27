@@ -6,7 +6,7 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 11:37:00 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 10:46:19 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 19:10:26 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	parse_double(char *str, double *value)
 static int	validate_color_value(long val, char **split)
 {
 	if (val < 0 || val > 255)
-		return (free_array(split), \
+		return (free_array(split),
 			print_error("Color values must be in range [0, 255]"), 0);
 	return (1);
 }
@@ -63,7 +63,7 @@ int	parse_color(char *str, t_color *color)
 	if (!split)
 		return (print_error("Memory allocation failed"), 0);
 	if (count_array(split) != 3)
-		return (free_array(split), \
+		return (free_array(split),
 			print_error("Color must have exactly 3 values (R,G,B)"), 0);
 	rgb[0] = ft_atol(split[0]);
 	rgb[1] = ft_atol(split[1]);

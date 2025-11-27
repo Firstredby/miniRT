@@ -6,7 +6,7 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:42:34 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 10:20:03 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 19:11:39 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	parse_camera(char *line, t_scene *scene, t_tracking *tracking)
 	if (!split)
 		return (print_error("Memory allocation failed"), 0);
 	if (count_array(split) < 4)
-		return (free_array(split), \
+		return (free_array(split),
 			print_error("Camera: missing parameters"), 0);
 	if (!parse_vec(split[1], &scene->camera->cam))
 		return (free_array(split), 0);

@@ -6,7 +6,7 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:10:09 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:09:09 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 19:10:07 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	parse_ambient(char *line, t_scene *scene, t_tracking *tracking)
 	if (!parse_color(split[2], &scene->ambient->color))
 		return (free_array(split), 0);
 	if (scene->ambient->ratio > 1 || scene->ambient->ratio < 0)
-		return (free_array(split), \
+		return (free_array(split),
 			print_error("Ambient ratio must be in range [0.0, 1.0]"), 0);
 	tracking->has_ambient = 1;
 	free_array(split);
