@@ -6,7 +6,7 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:03:05 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:23:28 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 19:11:52 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	identify_elem(char *line)
 	return (ELEM_UNKNOWN);
 }
 
-static int	process_element(char *new_line, int id, t_scene *scene, \
+static int	process_element(char *new_line, int id, t_scene *scene,
 	t_tracking *tracking)
 {
 	if (id == ELEM_AMBIENT && !parse_ambient(new_line, scene, tracking))
