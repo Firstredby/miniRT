@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:28:47 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 11:29:03 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 12:37:09 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_vec
 }	t_vec;
 
 double	discriminant(double a, double b, double c);
+double	distance(double disc, double a, double b);
 t_vec	vec(double x, double y, double z);
 t_vec	vec_add(t_vec a, t_vec b);
 t_vec	vec_sub(t_vec a, t_vec b);

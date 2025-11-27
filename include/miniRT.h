@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:26:13 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 11:26:15 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 12:43:01 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # endif
 
 # define PI 3.141592653589793
-# define WIDTH  1024
+# define WIDTH  1366
 # define HEIGHT 768
 
 typedef struct s_img

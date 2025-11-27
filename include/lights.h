@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:24:07 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 11:25:30 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 15:32:54 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,11 @@ t_color	diffuse(struct s_hit hit, t_light light);
 t_color	specular(struct s_hit hit, t_light light, t_vec cam_pos,
 			double shininess);
 int		in_shadow(struct s_hit *hit, struct s_scene *scene);
+int		sphere_loop(t_vec L, t_vec orig, double light_dist,
+			struct s_scene *scene);
+int		cylinder_loop(t_vec L, t_vec orig, double light_dist,
+			struct s_scene *scene);
+int		plane_loop(t_vec L, t_vec orig, double light_dist,
+			struct s_scene *scene);
 
 #endif

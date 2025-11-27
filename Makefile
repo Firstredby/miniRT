@@ -30,10 +30,12 @@ SRC		= src/main.c \
 		  src/parsing/utils/ft_print_error.c \
 		  src/execution/debug_menu.c \
 		  src/execution/rendering/render.c \
-		  src/execution/math_methods/math_func.c \
 		  src/execution/math_methods/lights_and_colors/color_utils.c \
 		  src/execution/math_methods/lights_and_colors/lights.c \
+		  src/execution/math_methods/lights_and_colors/lights_utils.c \
 		  src/execution/math_methods/shapes_calculation/shapes_calculation.c \
+		  src/execution/math_methods/shapes_calculation/shapes_calc_utils.c \
+		  src/execution/math_methods/shapes_calculation/math_func.c \
 		  src/execution/math_methods/vectors/vec_utils.c \
 		  src/execution/math_methods/vectors/vec_utils2.c \
 		  src/parsing/utils/ft_atof.c \
