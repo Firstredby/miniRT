@@ -6,18 +6,11 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:30:10 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/25 12:13:43 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 10:23:46 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
-
-
-// 1. FILE ERRORS
-//    - File doesn't exist
-//    - Can't open file (permissions)
-//    - Wrong file extension
-//    - Read error during parsing
 
 static int	validate_end(char *filename, char *end)
 {
