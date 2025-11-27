@@ -6,7 +6,7 @@
 /*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:03:18 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/26 15:44:50 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/27 11:22:23 by aorth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 
 //utils
-int	print_error(char *message);
+int		print_error(char *message);
 
 #endif  //LIBFT_H
