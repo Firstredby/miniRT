@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 22:01:59 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/27 22:02:08 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:05:50 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,17 @@
 
 int	trace_ray(t_data *data, t_vec orig, t_vec dir, t_hit *closest_hit)
 {
-	t_hit		temp;
-	int			hit_any;
-	t_sphere	*sphere;
-	t_cylinder	*cylinder;
-	t_plane		*plane;
+	int	result;
 
+	result = 0;
 	closest_hit->t = 1e30;
-	hit_any = 0;
-	sphere = data->scene->sphere;
-	while (sphere)
-	{
-		if (hit_sphere(orig, dir, *sphere, &temp))
-		{
-			if (temp.t > 0.001 && temp.t < closest_hit->t)
-			{
-				*closest_hit = temp;
-				hit_any = 1;
-			}
-		}
-		sphere = sphere->next;
-	}
-	cylinder = data->scene->cylinder;
-	while (cylinder)
-	{
-		if (hit_cylinder(orig, dir, *cylinder, &temp))
-		{
-			if (temp.t > 0.001 && temp.t < closest_hit->t)
-			{
-				*closest_hit = temp;
-				hit_any = 1;
-			}
-		}
-		cylinder = cylinder->next;
-	}
-	plane = data->scene->plane;
-	while (plane)
-	{
-		if (hit_plane(orig, dir, *plane, &temp))
-		{
-			if (temp.t > 0.001 && temp.t < closest_hit->t)
-			{
-				*closest_hit = temp;
-				hit_any = 1;
-			}
-		}
-		plane = plane->next;
-	}
-	return (hit_any);
+	if (ray_sphere(data, orig, dir, closest_hit))
+		result = 1;
+	if (ray_cylinder(data, orig, dir, closest_hit))
+		result = 1;
+	if (ray_plane(data, orig, dir, closest_hit))
+		result = 1;
+	return (result);
 }
 
 t_color	shade_pixel(t_data *data, t_hit *hit)
@@ -110,8 +73,6 @@ t_color	render_pixel(t_data *data, int x, int y)
 {
 	t_color	corners[4];
 	t_color	avg;
-	double	max_contrast;
-	double	contrast;
 	int		i;
 	int		j;
 
@@ -119,23 +80,16 @@ t_color	render_pixel(t_data *data, int x, int y)
 	corners[1] = render_single_ray(data, x + 0.5, y);
 	corners[2] = render_single_ray(data, x, y + 0.5);
 	corners[3] = render_single_ray(data, x + 0.5, y + 0.5);
-	max_contrast = 0.0;
 	i = 0;
-	while (i < 3)
+	while (i++ < 3)
 	{
-		j = i + 1;
+		j = i;
 		while (j < 4)
-		{
-			contrast = color_contrast(corners[i], corners[j++]);
-			if (contrast > max_contrast)
-				max_contrast = contrast;
-		}
-		i++;
+			color_contrast(corners[i - 1], corners[j++]);
 	}
 	avg = color(0x000000);
-	i = 0;
-	while (i < 4)
-		avg = color_add(avg, corners[i++]);
+	while (i >= 0)
+		avg = color_add(avg, corners[i--]);
 	return (color_scale(avg, 0.25));
 }
 

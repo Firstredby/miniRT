@@ -31,6 +31,7 @@ SRC		= src/main.c \
 		  src/execution/debug_menu.c \
 		  src/execution/rendering/render.c \
 		  src/execution/rendering/render_utils.c \
+		  src/execution/rendering/ray_shooting.c \
 		  src/execution/math_methods/lights_and_colors/color_utils.c \
 		  src/execution/math_methods/lights_and_colors/lights.c \
 		  src/execution/math_methods/lights_and_colors/lights_utils.c \

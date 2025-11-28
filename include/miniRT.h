@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:26:13 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 21:40:36 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:49:41 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@
 # endif
 
 # define PI 3.141592653589793
-# define WIDTH  1366
-# define HEIGHT 768
-# define AALEVEL 16
+# define WIDTH  480
+# define HEIGHT 360
 
 typedef struct s_img
 {

@@ -6,7 +6,7 @@
 /*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:50:20 by ishchyro          #+#    #+#             */
-/*   Updated: 2025/11/27 22:02:39 by ishchyro         ###   ########.fr       */
+/*   Updated: 2025/11/28 18:29:45 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	sphere_loop(t_vec L, t_vec orig,
 	{
 		if (hit_sphere(orig, L, *sphere, &hit))
 		{
-			if (hit.t > 0 && hit.t * hit.t < light_dist)
+			if (hit.t > 0.001 && hit.t * hit.t < light_dist)
 				return (1);
 		}
 		sphere = sphere->next;
@@ -42,7 +42,7 @@ int	cylinder_loop(t_vec L, t_vec orig,
 	{
 		if (hit_cylinder(orig, L, *cylinder, &hit))
 		{
-			if (hit.t > 0 && hit.t * hit.t < light_dist)
+			if (hit.t > 0.001 && hit.t * hit.t < light_dist)
 				return (1);
 		}
 		cylinder = cylinder->next;
@@ -61,7 +61,7 @@ int	plane_loop(t_vec L, t_vec orig,
 	{
 		if (hit_plane(orig, L, *plane, &hit))
 		{
-			if (hit.t > 0 && hit.t * hit.t < light_dist)
+			if (hit.t > 0.001 && hit.t * hit.t < light_dist)
 				return (1);
 		}
 		plane = plane->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shapes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aorth <aorth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ishchyro <ishchyro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:27:18 by aorth             #+#    #+#             */
-/*   Updated: 2025/11/27 11:28:13 by aorth            ###   ########.fr       */
+/*   Updated: 2025/11/28 19:07:53 by ishchyro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ typedef struct s_cylinder
 	t_color				color;
 	struct s_cylinder	*next;
 }	t_cylinder;
-
-typedef struct s_shapes
-{
-	t_plane		*plane;
-	t_cylinder	*cylinder;
-	t_sphere	*sphere;
-	t_light		*light;
-	t_ambient	*ambient;
-}	t_shapes;
 
 int	hit_sphere(t_vec orig, t_vec dir, t_sphere s, struct s_hit *hit);
 int	hit_plane(t_vec orig, t_vec dir, t_plane pl, struct s_hit *hit);
